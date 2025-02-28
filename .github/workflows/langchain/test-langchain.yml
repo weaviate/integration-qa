@@ -1,0 +1,13 @@
+name: LangChain CRUD Test
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Runs at 3AM UTC daily
+  workflow_dispatch:  # Allows manual trigger if needed
+
+jobs:
+  langchain-crud-test:
+    uses: ./.github/workflows/crud-test-template.yml
+    with:
+      folder: "langchain"
+      weaviate_collection: "LangChainCRUDTest"

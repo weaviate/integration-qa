@@ -1,0 +1,39 @@
+name: CRUD Integration Test
+
+on:
+  workflow_call:
+    inputs:
+      folder:
+        required: true
+        type: string
+      weaviate_collection:
+        required: true
+        type: string
+
+env:
+  WEAVIATE_URL: ${{ secrets.WEAVIATE_URL }}
+  WEAVIATE_API_KEY: ${{ secrets.WEAVIATE_API_KEY }}
+
+jobs:
+  crud-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y uuid-runtime
+          
+      - name: Install dependencies
+        run: pip install -r integrations/${{ inputs.folder }}/requirements.txt
+        
+      - name: Generate Unique Test ID
+        id: generate-id
+        run: echo "test_id=$(uuidgen)" >> $GITHUB_ENV
+        
+      - name: Run CRUD Tests
+        run: python integrations/${{ inputs.folder }}/test_crud.py --weaviate_collection ${{ inputs.weaviate_collection }}

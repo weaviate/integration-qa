@@ -9,6 +9,11 @@ on:
       weaviate_collection:
         required: true
         type: string
+    secrets:
+      WEAVIATE_URL:
+        required: true
+      WEAVIATE_API_KEY:
+        required: true
 
 env:
   WEAVIATE_URL: ${{ secrets.WEAVIATE_URL }}

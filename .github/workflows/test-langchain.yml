@@ -11,3 +11,4 @@ jobs:
     with:
       folder: "langchain"
       weaviate_collection: "LangChainCRUDTest"
+    secrets: inherit
